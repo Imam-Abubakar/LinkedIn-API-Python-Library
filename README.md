@@ -19,20 +19,24 @@ If you are ready to get started, follow right along.
 ## Connecting to the LinkedIn API
 
 ### Getting your OAuth Credentials
+
 To use the LinkedIn API, the first step is to create an app in the LinkedIn Developer Tool. Remember you need to have a LinkedIn account before you decide to use the API. You can create your LinkedIn account [here](https://www.linkedin.com/)
 
 __STEP 1: Creating the App__
+
 - Visit the [LinkedIn Developer Tool](https://www.linkedin.com/developers/) and click on “Create app”.
 - Add Your App name, Company Page URL/Name and Logo.
 - Click on “Create App” button.
 
 __STEP 2: Verifying the App__
+
 - In your App settings, Click on “Verify”.
 - Click on “Generate URL”.
 - Copy the generated URL in your browser while connected to your Linkedin Account.
 - Go back to the verification page and click on “I’m done”.
 
-__STEP 4: Setting up the Redirect URI__
+__STEP 3: Setting up the Redirect URI__
+
 The redirect URI will be used to define which URL the token will be sent to. The redirect URI is important because setting this up to a live site could let an attacker get access to your token. For the purpose of this article,we will set this up to our local computer(localhost). 
 - In the OAuth Tab, go to OAuth 2.0 settings.
 - In the Authorized redirect URLs for your app, add http://localhost:8080 (It might not be 8080 depending on your configuration so make sure to confirm).
@@ -44,7 +48,8 @@ The redirect URI will be used to define which URL the token will be sent to. The
   redirect_uri: "http://localhost:8080"
 }
 ```
-__STEP 5: Request App Products__
+__STEP 4: Request App Products__
+
 - In your App settings, Go to products and ask for permissions to ***Share on LinkedIn***, ***Sign-in with LinkedIn*** and ***Marketing Developer Platform***.
 
 Most likely, your request for ***Marketing Developer Platform*** will not get approved, limiting you to a very few features of the API. But not to worry, you will still be able to use features stated above. 
@@ -52,6 +57,7 @@ Most likely, your request for ***Marketing Developer Platform*** will not get ap
 > __Disclaimer__: _This article covers what you can do with the LinkedIn API without the LinkedIn Marketing Product_
 
 ### Authentication With OAuth 2.0
+
 If that you have all the necessary credentials required to authenticate and use the LinkedIn API, you can proceed to using OAuth 2.0 to authenticate your build and use the API. 
 OAuth 2.0 is an authorization framework that enables applications — such as Facebook, GitHub, and LinkedIn to obtain limited access to user accounts on an HTTP service. It works by delegating user authentication to the service that hosts a user account and authorizing third-party applications to access that user account.
 In this article, you will learn how to authenticate the LinkedIn API using OAuth 2.0. There are code guides that you can follow starting from this section.
@@ -190,6 +196,19 @@ def headers(access_token):
     }
     return headers
 ```
+__STEP 5: Combining All Functions__
+
+Now that all necessary functions have been created, you can proceed to create a function to run the entire script.
+
+The logic behind the auth() function goes like this:
+
+Run the Authentication.
+The first time the function runs, the browser opens asking you to authenticate.
+You will have to manually paste the redirect URI in the prompt.
+The URL will be parsed to extract the access token.
+It will save the access token
+Next time, it will use the access token instead of asking you to authenticate
+
     
 
 
