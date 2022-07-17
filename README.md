@@ -57,8 +57,9 @@ OAuth 2.0 is an authorization framework that enables applications — such as Fa
 In this article, you will learn how to authenticate the LinkedIn API using OAuth 2.0. There are code guides that you can follow starting from this section.
 
 __STEP 1: Importing Libraries__
+
 To run the OAuth 2.0 authentication you will need to install and import all these Python libraries: requests, random, string and json.
-```
+```python
 import json
 import random
 import requests
@@ -66,8 +67,9 @@ import string
 ```
 
 __STEP 2: Reading the LinkedIn Credentials__
+
 Now, let’s create a function that will read the ```credentials.json``` file that we have created in the previous section
-```
+```python
 def read_creds(filename):
     '''
     Store API credentials in a safe place.
@@ -83,10 +85,11 @@ redirect_uri = creds['redirect_uri']
 ```
 
 __STEP 3: Authorizing The API__
+
 To authorize the API, you will need to generate a CSRF token to prevent cross-site request forgery.
 The ```create_CSRF_token()``` function below creates a random string of letters to use as the CSRF Token.
 
-```
+```python
 def create_CSRF_token():
     '''
     This function generates a random string of letters.
@@ -100,7 +103,7 @@ def create_CSRF_token():
 
 Then, the ```authorize()``` function says what it does. It will open the authentication URL. Once authorized, it will redirect to the redirect URI given (http://localhost:8080).
 
-```
+```python
 api_url = 'https://www.linkedin.com/oauth/v2'
  
 def authorize(api_url,client_id,client_secret,redirect_uri):
@@ -139,9 +142,10 @@ def authorize(api_url,client_id,client_secret,redirect_uri):
     return auth_code
 ```
 __STEP 4: Getting the Access Token__
+
 The `authorize()` function contains two functions that will need to be defined: `open_url()` that opens the login URL in the browser and `parse_redirect_uri()`that checks the redirect uri and extract the access token from it.
 
-```
+```python
  def open_url(url):
     '''
     Function to Open URL.
@@ -164,7 +168,7 @@ def parse_redirect_uri(redirect_response):
 ```
 
 A third function `save_token()` will be needed to save the access token to your `credentials.json` file. The `save_token()` function will make sure that you don’t need to log in every time you want to use the API.
-```
+```python
 def save_token(filename,data):
     '''
     Write token to credentials file.
