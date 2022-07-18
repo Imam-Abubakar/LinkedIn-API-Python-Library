@@ -266,15 +266,7 @@ Below is a breakdown of the result:
  The entire OAuth script should look like this:
  ```python
  #!/usr/bin/env python
-'''
-Simple Authentication script to log-on the Linkedin API
- 
-@author:    Jean-Christophe Chouinard. 
-@role:      Sr. SEO Specialist at SEEK.com.au
-@website:   jcchouinard.com
-@LinkedIn:  linkedin.com/in/jeanchristophechouinard/ 
-@Twitter:   twitter.com/@ChouinardJC
-'''
+
 import json
 import random
 import requests
