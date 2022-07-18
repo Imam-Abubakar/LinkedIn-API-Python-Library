@@ -200,15 +200,70 @@ __STEP 5: Combining All Functions__
 
 Now that all necessary functions have been created, you can proceed to create a function to run the entire script.
 
-The logic behind the auth() function goes like this:
+The logic behind the `auth()` function goes like this:
 
-Run the Authentication.
-The first time the function runs, the browser opens asking you to authenticate.
-You will have to manually paste the redirect URI in the prompt.
-The URL will be parsed to extract the access token.
-It will save the access token
-Next time, it will use the access token instead of asking you to authenticate
+1. Run the Authentication.
+2. The first time the function runs, the browser opens asking you to authenticate.
+3. You will have to manually paste the redirect URI in the prompt.
+4. The URL will be parsed to extract the access token.
+5. It will save the access token
+6. Next time, it will use the access token instead of asking you to authenticate
 
+```python
+def auth(credentials):
+    '''
+    Run the Authentication.
+    If the access token exists, it will use it to skip browser auth.
+    If not, it will open the browser for you to authenticate.
+    You will have to manually paste the redirect URI in the prompt.
+    '''
+    creds = read_creds(credentials)
+    print(creds)
+    client_id, client_secret = creds['client_id'], creds['client_secret']
+    redirect_uri = creds['redirect_uri']
+    api_url = 'https://www.linkedin.com/oauth/v2'
+         
+    if 'access_token' not in creds.keys(): 
+        args = client_id,client_secret,redirect_uri
+        auth_code = authorize(api_url,*args)
+        access_token = refresh_token(auth_code,*args)
+        creds.update({'access_token':access_token})
+        save_token(credentials,creds)
+    else: 
+        access_token = creds['access_token']
+    return access_token
+```
+
+__STEP 5: Running the Function__
+To run the function, call the `auth()` function using the path to your `credentials.json` file.
+
+```python
+if __name__ == '__main__':
+    credentials = 'credentials.json'
+    access_token = auth(credentials)
+```
+
+The _if name equals main_ line checks whether you are running the module or importing it. If you are importing it, `auth()` will not run.
+
+Now you can run your `lknd_oauth.py` script that was just created by running it in the command-line as shown below
+```
+$ python lknd_oauth.py
+```
+
+Below is a breakdown of the result:
+1. Browser opens asking you to login to Linkedin
+
+2. The prompt asks you to "Allow the App"
+
+3. You will be redirected to a page that can’t be reached. This is normal because you are not running this on a server. Simply copy the localhost:8080/?code... url in the URL/Search bar in the browser.
+
+4. Copy the URL in your Script. Your access token is found right after the `?code=` parameter and before the `&state` parameter. You could then add the access token to your `credentials.json` file.
+![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/54324954/179633194-92895ffc-23b0-4213-98ec-808700c1d04a.jpg)
+
+5. Save your `credentials.json` file.
+ With your access token now available, you are ready to use the LinkedIn API
+ 
+ 
     
 
 
