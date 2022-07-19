@@ -523,9 +523,67 @@ user_info = user_info(headers)
 urn = user_info['id']
 ```
 
+4. __Define Your Personal URN and API URL__
+In your request, you need to define who you are, by providing your URN.
+```python
+urn:li:person:<your-user-id>
+```
+We have extracted the user ID from the user_info() function.
+```python
+author = f'urn:li:person:{urn}'
+```
+The API URL defines which API you want to use. In this case, we are using the UGC API, which replaces the Shares API. We are going to use only the ugcPosts URL in this article.
+```python
+api_url = 'https://api.linkedin.com/v2/ugcPosts'
+```
+
+__STEP 2: Making a Simple Text Post__
+
+To prepare the body of your request to make a text post, you will need the `author`, your URN from the previous step, and the message that you want to share.
+
+_The Message of your Post_
+The message is the text associated with your post. The maximum length of your message for a UGC post is 1300 characters.
+```python
+message = 'Preparing a LinkedIn Bot'
+```
+
+_The body of the request_
+To share an organic post, you will be using `com.linkedin.ugc.ShareContent`
+```python
+post_data = {
+    "author": author,
+    "lifecycleState": "PUBLISHED",
+    "specificContent": {
+        "com.linkedin.ugc.ShareContent": {
+            "shareCommentary": {
+                "text": message
+            },
+            "shareMediaCategory": "NONE"
+        }
+    },
+    "visibility": {
+        "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"
+    }
+}
+```
+Share the Post to LinkedIn
+This set-up is public, which means that anyone on the LinkedIn Platform will be able to view this share.
+
+The request needs the `api_url`, the authenticated `headers` and the `post_data` to run.
+```python
+if __name__ == '__main__':
+    r = requests.post(api_url, headers=headers, json=post_data)
+    r.json()
+```
+If your request is successful, it will return a `201 Created response`, and the post will be identified by the `X-RestLi-Id` response header.
+
+The _if name equals main_ line checks whether you are running the module or importing it. If you are importing it, `requests.post()` will not run.
 
 
-__STEP 1: Preparing the Request__
+
+
+
+
 __STEP 1: Preparing the Request__
 
 
