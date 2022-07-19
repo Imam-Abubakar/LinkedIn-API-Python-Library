@@ -579,12 +579,143 @@ If your request is successful, it will return a `201 Created response`, and the 
 
 The _if name equals main_ line checks whether you are running the module or importing it. If you are importing it, `requests.post()` will not run.
 
+__STEP 3: Make a Link Post__
+Keeping all the code from Step 1, you will modify the `post_data`body to add media to the `ShareContent`.
+```python
+message = '''
+Interested to automate LinkedIn using #Python and the LinkedIn API? 
+Read this in-depth Python for #SEO post I wrote.
+'''
+link = 'https://www.jcchouinard.com/how-to-use-the-linkedin-api-python/'
+link_text = 'Complete tutorial using the LinkedIn API'
+ 
+post_data = {
+    "author": author,
+        "lifecycleState": "PUBLISHED",
+        "specificContent": {
+            "com.linkedin.ugc.ShareContent": {
+                "shareCommentary": {
+                    "text": message
+                },
+                "shareMediaCategory": "ARTICLE",
+                "media": [
+                    {
+                        "status": "READY",
+                        "description": {
+                            "text": message
+                        },
+                        "originalUrl": link,
+                        "title": {
+                            "text": link_text
+                        }
+                    }
+                ]
+            }
+        },
+        "visibility": {
+            "com.linkedin.ugc.MemberNetworkVisibility": "CONNECTIONS"
+        }
+    }
+```
+Execute the Request.
+```python
+if __name__ == '__main__':
+    r = requests.post(api_url, headers=headers, json=post_data)
+    r.json()
+```
+__STEP 4: Sharing a Link Post and mentioning a company__
+__Find the Company URN__
+Finding any LinkedIn company ID is easy. Go to the company page on LinkedIn and click on “See all X employees on LinkedIn“. The company ID is in the URL after the `“?facetCurrentCompany=%5B”` parameter.
+
+Add the company ID to the `mention_id` variable.
+```python
+mention_name = 'iPullRank'
+message = f'Watch Michael King from {mention_name} with Hamlet Batista at Ranksense talk about Automated #SEO Testing'
+mention_id = '9280143'
+mention_urn = f'urn:li:organization:{mention_id}'
+link = 'https://www.crowdcast.io/e/webinar-automated-testing'
+```
+
+__Find Where the Mention is__
+We will create a function called `find_pos()` to find where the `mention_name` starts in the message.
+```python
+def find_pos(mention_name, message):
+    '''
+    Find position of mention_name in the message
+    '''
+    index = 0
+    if mention_name in message:
+        c = mention_name[0]
+        for ch in message:
+            if ch == c:
+                if message[index:index+len(mention_name)] == mention_name:
+                    return index
+            index += 1
+    return -1
+```
+Then, we will check the length of the `mention_name`, that we will also need to mention the company.
+```python
+len_uname = len(mention_name)
+start = find_pos(mention_name, message)
+```
+
+__Create the Body of the Request__
+Now, we will create the body of the request adding `attributes` to the `shareCommentary` object. Then `length`, `start`, `value` and `com.linkedin.common.CompanyAttributedEntity` are required to mention a company.
+```python
+post_data = {
+    "author": author,
+        "lifecycleState": "PUBLISHED",
+        "specificContent": {
+            "com.linkedin.ugc.ShareContent": {
+                "shareCommentary": {
+                    "attributes": [
+                        {
+                            "length": len_uname,
+                            "start": start,
+                            "value": {
+                                "com.linkedin.common.CompanyAttributedEntity": {
+                                    "company": mention_urn
+                                }
+                            }
+                        }
+                    ],
+                    "text": message
+                },
+                "shareMediaCategory": "ARTICLE",
+                "media": [
+                    {
+                        "status": "READY",
+                        "description": {
+                            "text": message
+                        },
+                        "originalUrl": link,
+                        "title": {
+                            "text": message
+                        }
+                    }
+                ]
+            }
+        },
+        "visibility": {
+            "com.linkedin.ugc.MemberNetworkVisibility": "CONNECTIONS"
+        }
+    }
+ 
+if __name__ == '__main__':
+    r = requests.post(api_url, headers=headers, json=post_data)
+    r.json()
+```
+
+__Run the Code__
+Now the time to run the code.
+```python
+if __name__ == '__main__':
+    r = requests.post(api_url, headers=headers, json=post_data)
+    r.json()
+```
 
 
 
-
-
-__STEP 1: Preparing the Request__
 
 
 
