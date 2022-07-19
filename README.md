@@ -1,4 +1,17 @@
 # LinkedIn-API-Python-Library
+
+This article is a complete guide on how to use the LinkedIn API with Python
+
+- [Overview](#overview)
+- Getting Started
+- Connecting to the LinkedIn API
+  - Getting your OAuth Credentials
+  - Authentication With OAuth 2.0
+- Using the LinkedIn API
+  - Getting User's Information
+  - Posting on LinkedIn via the API
+  
+
 ## Overview
 Welcome, this article covers how to use the LinkedIn API with Python. Following this, you will learn how to get your OAuth Credentials, authenticate the API using OAuth 2.0 and create LinkedIn posts. You should understand that the LinkedIn API is limited to users with basic access and you can follow this article to learn how to make simple posts automation to your LinkedIn public profile.
 
@@ -108,7 +121,7 @@ def create_CSRF_token():
     return token
 ```
 
-Then, the ```authorize()``` function says what it does. It will open the authentication URL. Once authorized, it will redirect to the redirect URI given (http://localhost:8080).
+Then, the `authorize()` function says what it does. It will open the authentication URL. Once authorized, it will redirect to the redirect URI given (http://localhost:8080).
 
 ```python
 api_url = 'https://www.linkedin.com/oauth/v2'
