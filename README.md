@@ -483,6 +483,52 @@ if __name__ == '__main__':
 By now, you should have extracted your user information using the LinkedIn API and Python.
 
 ### Posting on LinkedIn via the API
+In this section, you will learn how to use the LinkedIn API and Python to make a text post, a link post, and a link post with a mention to a company page.
+
+__STEP 1: Preparing the Request__
+To prepare the API call, there are a few setting up required, which include;
+
+1. __Importing Packages__
+Before importing the packages, install `request` via your Commmand line using: 
+`$ pip install requests`
+In a new python file, you can now import `requests` and the `auth()` and `headers()` functions from the lknd_oauth module that was previously created.
+
+```python
+import requests
+from lknd_oauth import auth, headers
+```
+
+2. __Authentication__
+Before making the request, you need to authorize your credentials and attach the access token to the header of the GET request.
+
+```python
+credentials = 'credentials.json'
+access_token = auth(credentials) # Authenticate the API
+headers = headers(access_token) # Make the headers to attach to the API call.
+```
+
+3. __Getting Your User ID__
+Similar to how `user_info()` was created from the `get_user_info.py` module that we created for the getting user information with the LinkedIn API.
+```python
+def user_info(headers):
+    '''
+    Get user information from Linkedin
+    '''
+    response = requests.get('https://api.linkedin.com/v2/me', headers = headers)
+    user_info = response.json()
+    return user_info
+ 
+# Get user id to make a UGC post
+user_info = user_info(headers)
+urn = user_info['id']
+```
+
+
+
+__STEP 1: Preparing the Request__
+__STEP 1: Preparing the Request__
+
+
 
 
 
