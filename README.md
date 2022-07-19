@@ -1,8 +1,9 @@
 # LinkedIn-API-Python-Library
 ## Overview
-Welcome to this full scale documentation of how to use the LinkedIn API with Python. Following this, you will learn how to get your OAuth Credentials, authenticate the API using OAuth 2.0 and create LinkedIn posts. You should understand that the LinkedIn Api is limited to users with basic access and this doc you can follow this documentation to make simple posts automation to your public profile.
+Welcome, this article covers how to use the LinkedIn API with Python. Following this, you will learn how to get your OAuth Credentials, authenticate the API using OAuth 2.0 and create LinkedIn posts. You should understand that the LinkedIn API is limited to users with basic access and you can follow this article to learn how to make simple posts automation to your LinkedIn public profile.
+
 ## Getting Started
-As stated this API provides basic access for users as follows
+As stated this API provides basic access for users, the parameters as follows
 ```
 w_member_social : With this, an authenticated user can post, comment and like posts
 ```
@@ -261,9 +262,8 @@ Below is a breakdown of the result:
 ![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/54324954/179633194-92895ffc-23b0-4213-98ec-808700c1d04a.jpg)
 
 5. Save your `credentials.json` file.
- With your access token now available, you are ready to use the LinkedIn API
+With your access token now available, you are ready to use the LinkedIn API. The entire OAuth script should look like this:
  
- The entire OAuth script should look like this:
  ```python
  #!/usr/bin/env python
 
@@ -408,10 +408,15 @@ if __name__ == '__main__':
  ```
 
 ## Using the LinkedIn API
+
 ### Getting User's Information
+
 __STEP 1: Importing Packages__
+
 Before importing the packages, install `request` via your Commmand line using: 
+
 `$ pip install requests`
+
 In a new python file, you can now import `requests` and the `auth()` and `headers()` functions from the lknd_oauth module that was previously created.
 
 ```python
@@ -419,7 +424,9 @@ import requests
 from lknd_oauth import auth, headers
 ```
 __STEP 2: Making the Request__
+
 Make a GET request to the Profile API using the https://api.linkedin.com/v2/me url. You will need to pass the headers to the function using the headers() function from lknd_oauth.
+
 ```python
 def user_info(headers):
     '''
@@ -430,6 +437,7 @@ def user_info(headers):
     return user_info
  ```
  __STEP 3: Authorizing the API__
+ 
  Now it is time to authorize the API.
 
 ```python
@@ -446,6 +454,7 @@ The `headers()` function from `lknd_oauth.py` will create the headers to pass to
  ```
  
   __STEP 5: Running the Code__
+  
 ```python
 if __name__ == '__main__':
     credentials = 'credentials.json'
@@ -483,14 +492,19 @@ if __name__ == '__main__':
 By now, you should have extracted your user information using the LinkedIn API and Python.
 
 ### Posting on LinkedIn via the API
+
 In this section, you will learn how to use the LinkedIn API and Python to make a text post, a link post, and a link post with a mention to a company page.
 
 __STEP 1: Preparing the Request__
+
 To prepare the API call, there are a few setting up required, which include;
 
 1. __Importing Packages__
+
 Before importing the packages, install `request` via your Commmand line using: 
+
 `$ pip install requests`
+
 In a new python file, you can now import `requests` and the `auth()` and `headers()` functions from the lknd_oauth module that was previously created.
 
 ```python
@@ -499,6 +513,7 @@ from lknd_oauth import auth, headers
 ```
 
 2. __Authentication__
+
 Before making the request, you need to authorize your credentials and attach the access token to the header of the GET request.
 
 ```python
@@ -508,7 +523,9 @@ headers = headers(access_token) # Make the headers to attach to the API call.
 ```
 
 3. __Getting Your User ID__
+4. 
 Similar to how `user_info()` was created from the `get_user_info.py` module that we created for the getting user information with the LinkedIn API.
+
 ```python
 def user_info(headers):
     '''
@@ -524,15 +541,20 @@ urn = user_info['id']
 ```
 
 4. __Define Your Personal URN and API URL__
+
 In your request, you need to define who you are, by providing your URN.
+
 ```python
 urn:li:person:<your-user-id>
 ```
+
 We have extracted the user ID from the user_info() function.
+
 ```python
 author = f'urn:li:person:{urn}'
 ```
 The API URL defines which API you want to use. In this case, we are using the UGC API, which replaces the Shares API. We are going to use only the ugcPosts URL in this article.
+
 ```python
 api_url = 'https://api.linkedin.com/v2/ugcPosts'
 ```
@@ -542,13 +564,17 @@ __STEP 2: Making a Simple Text Post__
 To prepare the body of your request to make a text post, you will need the `author`, your URN from the previous step, and the message that you want to share.
 
 _The Message of your Post_
+
 The message is the text associated with your post. The maximum length of your message for a UGC post is 1300 characters.
+
 ```python
 message = 'Preparing a LinkedIn Bot'
 ```
 
 _The body of the request_
+
 To share an organic post, you will be using `com.linkedin.ugc.ShareContent`
+
 ```python
 post_data = {
     "author": author,
@@ -566,28 +592,32 @@ post_data = {
     }
 }
 ```
-Share the Post to LinkedIn
-This set-up is public, which means that anyone on the LinkedIn Platform will be able to view this share.
 
-The request needs the `api_url`, the authenticated `headers` and the `post_data` to run.
+_Share the Post to LinkedIn_
+
+This set-up is public, which means that anyone on the LinkedIn Platform will be able to view this share. The request needs the `api_url`, the authenticated `headers` and the `post_data` to run.
+
 ```python
 if __name__ == '__main__':
     r = requests.post(api_url, headers=headers, json=post_data)
     r.json()
 ```
+
 If your request is successful, it will return a `201 Created response`, and the post will be identified by the `X-RestLi-Id` response header.
 
 The _if name equals main_ line checks whether you are running the module or importing it. If you are importing it, `requests.post()` will not run.
 
 __STEP 3: Make a Link Post__
+
 Keeping all the code from Step 1, you will modify the `post_data`body to add media to the `ShareContent`.
+
 ```python
 message = '''
-Interested to automate LinkedIn using #Python and the LinkedIn API? 
-Read this in-depth Python for #SEO post I wrote.
+Interested in automating LinkedIn using #Python and the LinkedIn API? 
+Read this in-depth article post I wrote.
 '''
-link = 'https://www.jcchouinard.com/how-to-use-the-linkedin-api-python/'
-link_text = 'Complete tutorial using the LinkedIn API'
+link = '[https://www.jcchouinard.com/how-to-use-the-linkedin-api-python/](https://dev.to/abubakardev)'
+link_text = 'Using the LinkedIn API Python Library'
  
 post_data = {
     "author": author,
@@ -617,14 +647,18 @@ post_data = {
         }
     }
 ```
+
 Execute the Request.
+
 ```python
 if __name__ == '__main__':
     r = requests.post(api_url, headers=headers, json=post_data)
     r.json()
 ```
 __STEP 4: Sharing a Link Post and mentioning a company__
+
 __Find the Company URN__
+
 Finding any LinkedIn company ID is easy. Go to the company page on LinkedIn and click on “See all X employees on LinkedIn“. The company ID is in the URL after the `“?facetCurrentCompany=%5B”` parameter.
 
 Add the company ID to the `mention_id` variable.
@@ -637,7 +671,9 @@ link = 'https://www.crowdcast.io/e/webinar-automated-testing'
 ```
 
 __Find Where the Mention is__
+
 We will create a function called `find_pos()` to find where the `mention_name` starts in the message.
+
 ```python
 def find_pos(mention_name, message):
     '''
@@ -654,13 +690,16 @@ def find_pos(mention_name, message):
     return -1
 ```
 Then, we will check the length of the `mention_name`, that we will also need to mention the company.
+
 ```python
 len_uname = len(mention_name)
 start = find_pos(mention_name, message)
 ```
 
 __Create the Body of the Request__
+
 Now, we will create the body of the request adding `attributes` to the `shareCommentary` object. Then `length`, `start`, `value` and `com.linkedin.common.CompanyAttributedEntity` are required to mention a company.
+
 ```python
 post_data = {
     "author": author,
@@ -708,19 +747,11 @@ if __name__ == '__main__':
 
 __Run the Code__
 Now the time to run the code.
+
 ```python
 if __name__ == '__main__':
     r = requests.post(api_url, headers=headers, json=post_data)
     r.json()
 ```
 
-
-
-
-
-
-
-
-
-
-
+If you followed this article from start to finish while working on creating a build, you should have successfully automated post sharing using the LinkedIn API with python.
