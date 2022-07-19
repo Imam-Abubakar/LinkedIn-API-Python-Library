@@ -236,6 +236,7 @@ def auth(credentials):
 ```
 
 __STEP 5: Running the Function__
+
 To run the function, call the `auth()` function using the path to your `credentials.json` file.
 
 ```python
