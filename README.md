@@ -3,13 +3,13 @@
 This article is a complete guide on how to use the LinkedIn API with Python
 
 - [Overview](#overview)
-- Getting Started
-- Connecting to the LinkedIn API
-  - Getting your OAuth Credentials
-  - Authentication With OAuth 2.0
-- Using the LinkedIn API
-  - Getting User's Information
-  - Posting on LinkedIn via the API
+- [Getting Started](#getting-started)
+- [Connecting to the LinkedIn API](#connecting-to-the-linkedin-api)
+  - [Getting your OAuth Credentials](#getting-your-oauth-credentials)
+  - [Authentication With OAuth 2.0](#authentication-with-oauth-2.0)
+- [Using the LinkedIn API](#using-the-linkedin-api)
+  - [Getting User's Information](#getting-user's-information)
+  - [Posting on LinkedIn via the API](#posting-on-linkedin-via-the-api)
   
 
 ## Overview
